@@ -213,7 +213,6 @@ $(SFC_MFC_TARGETS) &: $(FIRRTL_FILE) $(FINAL_ANNO_FILE) $(SFC_LEVEL) $(EXTRA_FIR
 		--format=fir \
 		--dedup \
 		--export-module-hierarchy \
-		--emit-metadata \
 		--verify-each=true \
 		--warn-on-unprocessed-annotations \
 		--disable-annotation-classless \
@@ -331,22 +330,22 @@ run-fast: run-asm-tests-fast run-bmark-tests-fast
 #########################################################################################
 # helper rules to run simulator with fast loadmem via hex files
 #########################################################################################
-WHISPER = /root/my-chipyard/sims/whisper/build-Linux/whisper
+WHISPER = $(base_dir)/sims/whisper/build-Linux/whisper
 ifeq (,$(WHISPER))
 	$(error WHISPER variable is not set. Set it to the path to whisper executable.)
 endif
 
 ifneq (,$(findstring Ocelot,$(CONFIG)))
-  WHISPER_JSON = /root/my-chipyard/sims/cosim/bridge/whisper/config/ocelot.json
+  WHISPER_JSON = $(base_dir)/sims/cosim/bridge/whisper/config/ocelot.json
 else
   ifneq (,$(findstring Bobcat,$(CONFIG)))
-    WHISPER_JSON = /root/my-chipyard/sims/cosim/bridge/whisper/config/bobcat.json
+    WHISPER_JSON = $(base_dir)/sims/cosim/bridge/whisper/config/bobcat.json
   else
-    WHISPER_JSON = /root/my-chipyard/sims/cosim/bridge/whisper/config/boom.json
+    WHISPER_JSON = $(base_dir)/sims/cosim/bridge/whisper/config/boom.json
   endif
 endif
 
-BOOTCODE = /root/my-chipyard/sims/cosim/bootrom/bootrom
+BOOTCODE = $(base_dir)/sims/cosim/bootrom/bootrom
 
 $(binary_hex): $(firstword $(BINARY)) | $(output_dir)
 	$(base_dir)/scripts/smartelf2hex.sh $(firstword $(BINARY)) > $(binary_hex)

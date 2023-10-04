@@ -155,7 +155,8 @@ MAX_WIDTH_OPTS = $(shell verilator --version | perl -lne 'if (/(\d.\d+)/ && $$1 
 
 PREPROC_DEFINES := \
 	+define+PRINTF_COND=\$$c\(\"verbose\",\"\&\&\"\,\"done_reset\"\) \
-	+define+STOP_COND=\$$c\(\"done_reset\"\)
+	+define+STOP_COND=\$$c\(\"done_reset\"\) +define+SIM=1
+#+define+ASSERT_COND_NORST +define+ASSERT_COND_CLK
 
 VERILATOR_NONCC_OPTS = \
 	-I$(build_dir)/gen-collateral \
@@ -164,6 +165,7 @@ VERILATOR_NONCC_OPTS = \
 	$(VERILATOR_OPT_FLAGS) \
 	$(PLATFORM_OPTS) \
 	-Wno-fatal \
+	--no-timing \
 	$(TIMESCALE_OPTS) \
 	$(MAX_WIDTH_OPTS) \
 	$(PREPROC_DEFINES) \
@@ -188,7 +190,7 @@ VERILATOR_LDFLAGS = $(SIM_LDFLAGS)
 
 VERILATOR_CC_OPTS = \
 	-CFLAGS "$(VERILATOR_CXXFLAGS)" \
-	-LDFLAGS "$(VERILATOR_LDFLAGS)"
+	-LDFLAGS "$(VERILATOR_LDFLAGS) -L$(sim_dir) -Wl,-rpath,$(sim_dir) -l$(cosimsoname)"
 
 #----------------------------------------------------------------------------------------
 # full verilator+gcc opts
@@ -225,10 +227,10 @@ $(model_mk_debug): $(sim_common_files) $(EXTRA_SIM_REQS)
 #########################################################################################
 # invoke make to make verilator sim rules
 #########################################################################################
-$(sim): $(model_mk) $(dramsim_lib)
+$(sim): $(model_mk) $(dramsim_lib) $(cosimso)
 	$(MAKE) VM_PARALLEL_BUILDS=1 -C $(model_dir) -f V$(VLOG_MODEL).mk
 
-$(sim_debug): $(model_mk_debug) $(dramsim_lib)
+$(sim_debug): $(model_mk_debug) $(dramsim_lib) $(cosimso)
 	$(MAKE) VM_PARALLEL_BUILDS=1 -C $(model_dir_debug) -f V$(VLOG_MODEL).mk
 
 #########################################################################################

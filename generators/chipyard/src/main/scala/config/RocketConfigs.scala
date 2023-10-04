@@ -11,6 +11,11 @@ class RocketConfig extends Config(
   new freechips.rocketchip.subsystem.WithNBigCores(1) ++         // single rocket-core
   new chipyard.config.AbstractConfig)
 
+class RocketVecRoccExampleConfig extends Config(
+  new boom.exu.WithVecRoccExample ++ // ROCC examples inclusion
+  new freechips.rocketchip.subsystem.WithNBigCores(1) ++ // single rocket-core
+    new chipyard.config.AbstractConfig)
+
 class TinyRocketConfig extends Config(
   new chipyard.iobinders.WithDontTouchIOBinders(false) ++         // TODO FIX: Don't dontTouch the ports
   new chipyard.config.WithTLSerialLocation(
