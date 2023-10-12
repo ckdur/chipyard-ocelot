@@ -11,6 +11,11 @@ class RocketConfig extends Config(
   new freechips.rocketchip.subsystem.WithNBigCores(1) ++         // single rocket-core
   new chipyard.config.AbstractConfig)
 
+class RocketRoccExampleConfig extends Config(
+  new freechips.rocketchip.subsystem.WithRoccExample ++ // ROCC examples inclusion
+  new freechips.rocketchip.subsystem.WithNBigCores(1) ++ // single rocket-core
+    new chipyard.config.AbstractConfig)
+
 class RocketVecRoccExampleConfig extends Config(
   new boom.exu.WithVecRoccExample ++ // ROCC examples inclusion
   new freechips.rocketchip.subsystem.WithNBigCores(1) ++ // single rocket-core
