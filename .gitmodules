@@ -127,3 +127,6 @@
 [submodule "sims/whisper"]
 	path = sims/whisper
 	url = https://github.com/tenstorrent/whisper.git
+[submodule "tests/rvv/riscv-vectorized-benchmark-suite"]
+	path = tests/rvv/riscv-vectorized-benchmark-suite
+	url = https://github.com/RALC88/riscv-vectorized-benchmark-suite.git

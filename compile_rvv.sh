@@ -5,7 +5,7 @@ set -e
 
 # Make sure we get at least one file name as command line argument
 if [ "$#" -lt 1 ]; then
-  echo "Usage: compile_riscv <source-file1> <source-file2> ..."
+  echo "Usage: compile_rvv.sh <source-file1> <source-file2> ..."
   exit 1
 fi
 
