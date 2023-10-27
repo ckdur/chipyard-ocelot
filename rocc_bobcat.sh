@@ -7,7 +7,7 @@ commands=(
 #  "make -C sims/verilator run-binary-debug-hex CONFIG=SmallBobcatConfig BINARY=$PWD/tests/rvv/kernels/axpy/axpy-vector.elf SIM_FLAGS=+cosim"
 #  "make -C sims/verilator run-binary-debug-hex CONFIG=RocketVecRoccExampleConfig BINARY=$PWD/tests/rvv/kernels/axpy/axpy-vector.elf EXTRA_SIM_FLAGS=--verbose"
 #  "make -C sims/verilator run-binary-debug-hex CONFIG=RocketVecRoccExampleConfig BINARY=$PWD/tests/rvv/riscv-vectorized-benchmark-suite/_axpy/bin/axpy_vector.exe EXTRA_SIM_FLAGS=--verbose"
-#  "make -C sims/verilator run-binary-debug-hex CONFIG=RocketVecRoccExampleConfig BINARY=$PWD/tests/rvv/kernels/_axpy/bin/axpy_vector.exe EXTRA_SIM_FLAGS=--verbose"
+  "make -C sims/verilator run-binary-debug-hex CONFIG=RocketVecRoccExampleConfig BINARY=$PWD/tests/rvv/kernels/_axpy/bin/axpy_vector.exe EXTRA_SIM_FLAGS=--verbose"
 )
 
 for cmd in "${commands[@]}"
