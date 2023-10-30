@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-#export LLVM=$PWD/llvm-EPI-0.7-development-toolchain-cross
-export LLVM=/opt/clang
+export LLVM=$PWD/llvm-EPI-0.7-development-toolchain-cross
+#export LLVM=/opt/clang
 export LLVM_DOWN=llvm-EPI-0.7-development-toolchain-cross-latest.tar.bz2
 export PATH=$PATH:$LLVM/bin
 
@@ -38,7 +38,7 @@ riscv64-unknown-elf-gcc ${CFLAGS} -fno-tree-loop-distribute-patterns -c -o ${PWD
 # Compile the test suite axpy
 AXPY=${RVSUITE}/_axpy
 ${LLVM}/bin/clang --target=riscv64-unknown-elf ${CFLAGS} -c -o ${AXPY}/src/utils.o ${AXPY}/src/utils.c
-${LLVM}/bin/clang --target=riscv64-unknown-elf ${CFLAGS} -DUSE_RISCV_VECTOR -fno-vectorize -c -o ${AXPY}/src/axpy.o ${AXPY}/src/axpy.c
+${LLVM}/bin/clang --target=riscv64-unknown-elf ${CFLAGS} -mepi -DUSE_RISCV_VECTOR -fno-vectorize -c -o ${AXPY}/src/axpy.o ${AXPY}/src/axpy.c
 ${LLVM}/bin/clang --target=riscv64-unknown-elf ${CFLAGS} -O2 -c -o ${AXPY}/src/main.o ${AXPY}/src/main.c
 riscv64-unknown-elf-gcc ${CFLAGS} -o ${AXPY}/bin/axpy_vector.exe ${RVTESTS}/benchmarks/common/crt.o ${RVTESTS}/benchmarks/common/syscalls.o ${AXPY}/src/*.o ${PWD}/tests/rvv/*.o ${LDFLAGS}
 rm ${AXPY}/src/*.o
@@ -47,7 +47,7 @@ ${LLVM}/bin/llvm-objdump  --mattr=+m,+f,+d,+a,+c,+experimental-v -ds  ${AXPY}/bi
 # Compile the "kernel" axpy
 KERNEL_AXPY=$PWD/tests/rvv/kernels/_axpy
 ${LLVM}/bin/clang --target=riscv64-unknown-elf ${CFLAGS} -c -o ${KERNEL_AXPY}/src/utils.o ${KERNEL_AXPY}/src/utils.c
-${LLVM}/bin/clang --target=riscv64-unknown-elf ${CFLAGS} -DUSE_RISCV_VECTOR -fno-vectorize -c -o ${KERNEL_AXPY}/src/axpy.o ${KERNEL_AXPY}/src/axpy.c
+${LLVM}/bin/clang --target=riscv64-unknown-elf ${CFLAGS} -mepi -DUSE_RISCV_VECTOR -fno-vectorize -c -o ${KERNEL_AXPY}/src/axpy.o ${KERNEL_AXPY}/src/axpy.c
 ${LLVM}/bin/clang --target=riscv64-unknown-elf ${CFLAGS} -O2 -c -o ${KERNEL_AXPY}/src/main.o ${KERNEL_AXPY}/src/main.c
 riscv64-unknown-elf-gcc ${CFLAGS} -o ${KERNEL_AXPY}/bin/axpy_vector.exe ${RVTESTS}/benchmarks/common/crt.o ${RVTESTS}/benchmarks/common/syscalls.o ${KERNEL_AXPY}/src/*.o ${PWD}/tests/rvv/*.o ${LDFLAGS}
 rm ${KERNEL_AXPY}/src/*.o
