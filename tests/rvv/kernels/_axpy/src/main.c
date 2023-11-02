@@ -87,7 +87,7 @@ int main(int argc, char *argv[])
     init_vector(dx, n, 1.0);
     init_vector(dy, n, 2.0);
 
-    // printf ("doing vector axpy\n");
+    printf ("doing vector axpy\n");
     // start = get_time();
     __asm ("__perf_start:");
     axpy_intrinsics(a, dx, dy, n);

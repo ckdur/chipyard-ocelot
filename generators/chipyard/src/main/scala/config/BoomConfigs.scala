@@ -12,6 +12,12 @@ class WithCustomBootROM extends Config((site, here, up) => {
         .map(_.copy(contentFileName = s"generators/boom/src/main/resources/bootrom/bootrom.rv64.img"))
 })
 
+class LittleBoomConfig extends Config(
+  new boom.common.WithBoomDebugHarness ++                        // Enable debug harness
+    new WithCustomBootROM ++                                       // Use custom BootROM to enable COSIM
+    new boom.common.WithNLittleBooms(1) ++                          // small boom config
+    new chipyard.config.AbstractConfig)
+
 class SmallBoomConfig extends Config(
   new boom.common.WithBoomDebugHarness ++                        // Enable debug harness
   new WithCustomBootROM ++                                       // Use custom BootROM to enable COSIM
