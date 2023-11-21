@@ -10,7 +10,21 @@ class LittleBobcatConfig extends Config(
   new boom.common.WithVector(1) ++
     new boom.common.WithBoomDebugHarness ++                        // Enable debug harness
     new WithCustomBootROM ++                                       // Use custom BootROM to enable COSIM
+    new chipyard.config.WithBroadcastManager ++ // no l2
     new boom.common.WithNLittleBooms(1) ++                          // small boom config
+    new chipyard.config.AbstractConfig)
+
+class MicroBobcatConfig extends Config(
+  new boom.common.WithVector(1) ++
+    new boom.common.WithBoomDebugHarness ++ // Enable debug harness
+    new WithCustomBootROM ++ // Use custom BootROM to enable COSIM
+    new chipyard.config.WithTLSerialLocation(freechips.rocketchip.subsystem.FBUS, freechips.rocketchip.subsystem.SBUS) ++
+    new chipyard.example.WithMySRAMKey ++
+    //new freechips.rocketchip.subsystem.WithIncoherentBusTopology ++
+    //new freechips.rocketchip.subsystem.WithNBanks(0) ++ // remove L2$
+    new freechips.rocketchip.subsystem.WithNoMemPort ++ // remove backing memory
+    new chipyard.config.WithBroadcastManager ++ // no l2
+    new boom.common.WithNLittleBooms(1) ++ // small boom config
     new chipyard.config.AbstractConfig)
 
 class SmallBobcatConfig extends Config(
